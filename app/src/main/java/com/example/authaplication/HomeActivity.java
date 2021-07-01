@@ -22,8 +22,8 @@ enum ProviderType {
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView tvcorreo,tvprovider;
-    Button btnlogOut;
+    private TextView tvcorreo,tvprovider;
+    private Button btnlogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +56,13 @@ public class HomeActivity extends AppCompatActivity {
         btnlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //START BORRADO DE DATOS
                 SharedPreferences prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE);
                 prefs.edit().clear();
                 prefs.edit().apply();
                 //END BORRADO DE DATOS
+
                 FirebaseAuth.getInstance().signOut();
                 onBackPressed();//retorna al activity inicial, el main
             }

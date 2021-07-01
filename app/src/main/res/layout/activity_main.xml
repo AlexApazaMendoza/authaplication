@@ -8,8 +8,8 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
@@ -33,7 +33,7 @@
         <EditText
             android:id="@+id/etxtPhone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
             android:ems="10"
             android:hint="Ingrese su número de celular"
@@ -50,7 +50,7 @@
             android:shadowDy="-4"
             android:shadowRadius="2"
             android:text="Enviar Codigo de verificacion"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/buttontext"
             android:textSize="14sp"
             app:backgroundTint="@color/buttoncolor" />
 
@@ -63,7 +63,7 @@
         <EditText
             android:id="@+id/etxtPhoneCode"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
             android:ems="10"
             android:hint="Ingrese el código de verificación"
@@ -80,7 +80,7 @@
             android:shadowDy="-4"
             android:shadowRadius="2"
             android:text="Verificar Codigo"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/buttontext"
             android:textSize="14sp"
             app:backgroundTint="@color/buttoncolor" />
 

@@ -43,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     //START CONTADOR
-    TextView tvContSec;
+    private TextView tvContSec;
     //END CONTADOR
 
     //START BANDERA
     private Integer band=0;
     //END BANDERA
 
-    EditText etNum, etxtPhoneCode;
-    Button btnCPhone,btnCheck;
+    private EditText etNum, etxtPhoneCode;
+    private Button btnCPhone,btnCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,13 +265,14 @@ public class MainActivity extends AppCompatActivity {
         editText.setBackgroundColor(Color.TRANSPARENT);
     }
     //END BLOQUEAR EDITTEXT
-    //START BLOQUEAR EDITTEXT
+
+    //START DESBLOQUEAR BLOQUEAR EDITTEXT
     private void enableEditText(EditText editText) {
         editText.setFocusable(true);
         editText.setEnabled(true);
         editText.setCursorVisible(true);
         editText.setBackgroundColor(Color.TRANSPARENT);
     }
-    //END BLOQUEAR EDITTEXT
+    //END DESBLOQUEAR BLOQUEAR EDITTEXT
 
 }

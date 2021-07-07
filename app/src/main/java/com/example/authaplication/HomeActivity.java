@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Map;
@@ -40,9 +41,10 @@ public class HomeActivity extends AppCompatActivity {
 
         //START GUARDADO DE DATOS
         SharedPreferences prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE);
-        prefs.edit().putString("email",bundle.getString("email"));
-        prefs.edit().putString("provider",bundle.getString("provider"));
-        prefs.edit().apply();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("email",bundle.getString("email"));
+        editor.putString("provider",bundle.getString("provider"));
+        editor.apply();
         //END GUARDADO DE DATOS
 
     }

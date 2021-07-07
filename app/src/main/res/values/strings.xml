@@ -3,4 +3,8 @@
     <string name="prefs_file">com.example.authaplication.PREFERENCE_FILE_KEY</string>
     <string name="textbtnRegistrar">REGISTRAR</string>
     <string name="textbtnAcceder">ACCEDER</string>
+
+    <string name="textbtnEnviarCodigoVerificacion">ENVIAR CODIGO</string>
+    <string name="textbtnReenviarCodigoVerificacion">REENVIAR</string>
+    <string name="textbtnVerificarCodigo">VERIFICAR</string>
 </resources>

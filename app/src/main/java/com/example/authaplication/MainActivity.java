@@ -3,7 +3,9 @@ package com.example.authaplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -50,13 +52,19 @@ public class MainActivity extends AppCompatActivity {
     private Integer band=0;
     //END BANDERA
 
+    //START DECLARAR VARIABLES
     private EditText etNum, etxtPhoneCode;
-    private Button btnCPhone,btnCheck;
+    private Button btnCPhone, btnCheck, btnResend;
+
+    private View v;
+    //END DECLARAR VARIABLES
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        v = (View) findViewById(R.id.phoneLayout);//referencia al layout del activity
 
         // [START initialize_auth]
         // Initialize Firebase Auth
@@ -66,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         // Initialize phone auth callbacks
         // [START phone_auth_callbacks]
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
                 // This callback will be invoked in two situations:
@@ -76,10 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 //     detect the incoming verification SMS and perform verification without
                 //     user action.
                 Log.d(TAG, "onVerificationCompleted:" + credential);
-
                 signInWithPhoneAuthCredential(credential);
             }
-
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 // This callback is invoked in an invalid request for verification is made,
@@ -93,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Show a message and update the UI
             }
-
             @Override
             public void onCodeSent(@NonNull String verificationId,
                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
@@ -120,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startPhoneNumberVerification(etNum.getText().toString());
-                hideSoftKeyboard();
+                hideSoftKeyboard(); //ocultar el teclado una vez se haya ingresado el numero
                 disableEditText(etNum);
             }
         });
@@ -137,20 +141,19 @@ public class MainActivity extends AppCompatActivity {
         });
         //END BOTON VERFICAR CODIGO
 
+        //START BOTON REENVIAR CODIGO
+        btnResend = (Button) findViewById(R.id.buttonResend);
+        btnResend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resendVerificationCode(etNum.getText().toString(), mResendToken);
+            }
+        });
+        //END BOTON REENVIAR CODIGO
+
         //START CONTADOR
         tvContSec = (TextView) findViewById(R.id.tvContSec);
         //END CONTADOR
-
-
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
     // [START on_start_check_user]
@@ -199,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         // [END verify_with_code]
 
+        //verifar esta parte
         signInWithPhoneAuthCredential(credential);  //AGREGO PARA QUE DE MANERA MANUAL LO VERIFIQUE
     }
 
@@ -228,10 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
                             // Update UI
-                            //START GO TO ANOTHER ACTIVITY
-                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            //END GO TO ANOTHER ACTIVITY
+                            updateUI(user);
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -245,7 +246,15 @@ public class MainActivity extends AppCompatActivity {
     // [END sign_in_with_phone]
 
     private void updateUI(FirebaseUser user) {
-
+        if (user != null){
+            // go to login activity
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.putExtra("phone",user.getPhoneNumber());
+            startActivity(intent);
+        }
+        if (user == null){
+            v.setVisibility(View.VISIBLE);
+        }
     }
 
     // START Hides the soft keyboard
@@ -262,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         editText.setFocusable(false);
         editText.setEnabled(false);
         editText.setCursorVisible(false);
-        editText.setBackgroundColor(Color.TRANSPARENT);
+        //editText.setBackgroundColor(Color.TRANSPARENT);
     }
     //END BLOQUEAR EDITTEXT
 
@@ -271,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         editText.setFocusable(true);
         editText.setEnabled(true);
         editText.setCursorVisible(true);
-        editText.setBackgroundColor(Color.TRANSPARENT);
+        //editText.setBackgroundColor(Color.TRANSPARENT);
     }
     //END DESBLOQUEAR BLOQUEAR EDITTEXT
 

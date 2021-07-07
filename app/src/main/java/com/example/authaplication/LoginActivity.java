@@ -28,27 +28,27 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.time.Duration;
+
 public class LoginActivity extends AppCompatActivity {
 
+    //START DECLARAR VARIABLES
     private Button btnsignUp, btnlogIn;
     private EditText etcorreo, etcontra;
     private SignInButton signInButton;
 
     private View v;
 
-
-
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
-
-
+    //END DECLARAR VARIABLES
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        v = (View) findViewById(R.id.authLayout);
+        v = (View) findViewById(R.id.authLayout);//referencia al layout del activity
 
         etcorreo = (EditText) findViewById(R.id.editTextEmail);
         etcontra = (EditText) findViewById(R.id.editTextPassword);
@@ -68,24 +68,23 @@ public class LoginActivity extends AppCompatActivity {
         v.setVisibility(View.VISIBLE);
     }
 
-
     //INICIO RECUPERAR DATOS
-
     private void session(){
         SharedPreferences prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE);
         String email = prefs.getString("email",null);
         String provider = prefs.getString("provider",null);
 
+        Toast toast = Toast.makeText(this, ""+email+"  "+provider, Toast.LENGTH_LONG);
+        toast.show();
         if (email!= null && provider != null){
             v.setVisibility(View.INVISIBLE);
             showHome(email,ProviderType.valueOf(provider));
         }
-
     }
     //END RECUPERAR DATOS
 
 
-
+    //START MAIN FUNCTIONS
     private void setup(){
         setTitle("Autenticación");//establecer titulo de la aplicacion
 
@@ -153,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         //END BOTON  ACCEDER
 
-
+        //START GOOGLE BOTON
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,10 +178,10 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
+        //END GOOGLE BOTON
 
     }
-
+    //END MAIN FUNCTIONS
 
     // [START onactivityresult]
     @Override
@@ -236,7 +235,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
+    //START ALERTAS PARA MANEJAR ERRORES
     private void showAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Error");
@@ -254,8 +253,9 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    //END ALERTAS PARA MANEJAR ERRORES
 
-    //START MOSTRAR HOME
+    //START MOSTRAR ACTIVITY HOME
     private void showHome(String email, ProviderType provider){
         //START GO HOME ACTIVITY
         Intent intent = new Intent(this, HomeActivity.class);
@@ -264,6 +264,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         //END GO HOME ACTIVITY
     }
-    //END MOSTRAR HOME
+    //END MOSTRAR ACTIVITY HOME
 
 }
